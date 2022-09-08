@@ -145,6 +145,7 @@ type NetworkAppSender interface {
 	// Gossip an application-level message.
 	// A non-nil error should be considered fatal.
 	SendAppGossip(ctx context.Context, appGossipBytes []byte) error
+	SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte) error
 	SendAppGossipSpecific(ctx context.Context, nodeIDs set.Set[ids.NodeID], appGossipBytes []byte) error
 }
 
