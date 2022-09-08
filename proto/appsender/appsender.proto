@@ -10,6 +10,7 @@ service AppSender {
   rpc SendAppRequest(SendAppRequestMsg) returns (google.protobuf.Empty);
   rpc SendAppResponse(SendAppResponseMsg) returns (google.protobuf.Empty);
   rpc SendAppGossip(SendAppGossipMsg) returns (google.protobuf.Empty);
+  rpc SendAppGossipFrenzy(SendAppGossipMsg) returns (google.protobuf.Empty);
   rpc SendAppGossipSpecific(SendAppGossipSpecificMsg) returns (google.protobuf.Empty);
 
   rpc SendCrossChainAppRequest(SendCrossChainAppRequestMsg) returns (google.protobuf.Empty);
