@@ -182,6 +182,7 @@ type NetworkAppSender interface {
 	SendAppResponse(ctx context.Context, nodeID ids.NodeID, requestID uint32, appResponseBytes []byte) error
 	// Gossip an application-level message.
 	SendAppGossip(ctx context.Context, appGossipBytes []byte) error
+	SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte) error
 	SendAppGossipSpecific(ctx context.Context, nodeIDs set.Set[ids.NodeID], appGossipBytes []byte) error
 }
 

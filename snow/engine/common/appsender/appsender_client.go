@@ -88,6 +88,16 @@ func (c *Client) SendAppGossip(ctx context.Context, msg []byte) error {
 	return err
 }
 
+func (c *Client) SendAppGossipFrenzy(ctx context.Context, msg []byte) error {
+	_, err := c.client.SendAppGossipFrenzy(
+		ctx,
+		&appsenderpb.SendAppGossipMsg{
+			Msg: msg,
+		},
+	)
+	return err
+}
+
 func (c *Client) SendAppGossipSpecific(ctx context.Context, nodeIDs set.Set[ids.NodeID], msg []byte) error {
 	nodeIDsBytes := make([][]byte, nodeIDs.Len())
 	i := 0

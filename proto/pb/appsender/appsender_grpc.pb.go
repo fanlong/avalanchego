@@ -35,6 +35,7 @@ type AppSenderClient interface {
 	SendAppRequest(ctx context.Context, in *SendAppRequestMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SendAppResponse(ctx context.Context, in *SendAppResponseMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SendAppGossip(ctx context.Context, in *SendAppGossipMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SendAppGossipFrenzy(ctx context.Context, in *SendAppGossipMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SendAppGossipSpecific(ctx context.Context, in *SendAppGossipSpecificMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SendCrossChainAppRequest(ctx context.Context, in *SendCrossChainAppRequestMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SendCrossChainAppResponse(ctx context.Context, in *SendCrossChainAppResponseMsg, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -69,6 +70,15 @@ func (c *appSenderClient) SendAppResponse(ctx context.Context, in *SendAppRespon
 func (c *appSenderClient) SendAppGossip(ctx context.Context, in *SendAppGossipMsg, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AppSender_SendAppGossip_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appSenderClient) SendAppGossipFrenzy(ctx context.Context, in *SendAppGossipMsg, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/appsender.AppSender/SendAppGossipFrenzy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -347,6 +347,17 @@ func (s *SenderTest) SendAppGossip(ctx context.Context, appGossipBytes []byte) e
 	return errSendAppGossip
 }
 
+func (s *SenderTest) SendAppGossipFrenzy(ctx, appGossipBytes []byte) error {
+	switch {
+	case s.SendAppGossipF != nil:
+		return s.SendAppGossipF(appGossipBytes)
+	case s.CantSendAppGossip && s.T != nil:
+		s.T.Fatal(errSendAppGossip)
+	}
+	return errSendAppGossip
+}
+
+
 // SendAppGossipSpecific calls SendAppGossipSpecificF if it was initialized. If it wasn't
 // initialized and this function shouldn't be called and testing was
 // initialized, then testing will fail.

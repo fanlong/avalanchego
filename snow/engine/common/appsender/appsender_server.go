@@ -72,6 +72,11 @@ func (s *Server) SendAppGossip(ctx context.Context, req *appsenderpb.SendAppGoss
 	return &emptypb.Empty{}, err
 }
 
+func (s *Server) SendAppGossipFrenzy(ctx context.Context, req *appsenderpb.SendAppGossipMsg) (*emptypb.Empty, error) {
+	err := s.appSender.SendAppGossipFrenzy(ctx, req.Msg)
+	return &emptypb.Empty{}, err
+}
+
 func (s *Server) SendAppGossipSpecific(ctx context.Context, req *appsenderpb.SendAppGossipSpecificMsg) (*emptypb.Empty, error) {
 	nodeIDs := set.NewSet[ids.NodeID](len(req.NodeIds))
 	for _, nodeIDBytes := range req.NodeIds {
