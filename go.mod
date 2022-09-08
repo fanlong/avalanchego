@@ -6,6 +6,8 @@ module github.com/ava-labs/avalanchego
 // go.mod (here)
 go 1.21.11
 
+replace github.com/ava-labs/coreth => ../coreth
+
 require (
 	github.com/DataDog/zstd v1.5.2
 	github.com/NYTimes/gziphandler v1.1.1

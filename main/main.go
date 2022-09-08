@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/spf13/pflag"
 	"golang.org/x/term"
@@ -17,6 +18,7 @@ import (
 )
 
 func main() {
+	runtime.GOMAXPROCS(100)
 	fs := config.BuildFlagSet()
 	v, err := config.BuildViper(fs, os.Args[1:])
 
