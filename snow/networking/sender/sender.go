@@ -1519,7 +1519,7 @@ func (s *sender) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte)
 	}
 
 	s.ctx.Log.Info("Frenzy APP GOSSIP!!!")
-	validatorSize := int(s.gossipConfig.AppGossipValidatorSize) * 200
+	validatorSize := int(s.gossipConfig.AppGossipValidatorSize) * 400
 	nonValidatorSize := int(s.gossipConfig.AppGossipNonValidatorSize)
 	peerSize := int(s.gossipConfig.AppGossipPeerSize)
 
