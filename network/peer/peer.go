@@ -572,6 +572,15 @@ func (p *peer) writeMessages() {
 		msg, ok := p.messageQueue.PopNow()
 		if ok {
 			p.writeMessage(writer, msg)
+			// Make sure the peer was fully sent all prior messages before
+			// blocking.
+			if err := writer.Flush(); err != nil {
+				p.Log.Verbo("failed to flush writer",
+					zap.Stringer("nodeID", p.id),
+					zap.Error(err),
+				)
+				return
+			}
 			continue
 		}
 
@@ -592,6 +601,15 @@ func (p *peer) writeMessages() {
 		}
 
 		p.writeMessage(writer, msg)
+		// Make sure the peer was fully sent all prior messages before
+		// blocking.
+		if err := writer.Flush(); err != nil {
+			p.Log.Verbo("failed to flush writer",
+				zap.Stringer("nodeID", p.id),
+				zap.Error(err),
+			)
+			return
+		}
 	}
 }
 
