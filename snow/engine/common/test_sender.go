@@ -347,7 +347,7 @@ func (s *SenderTest) SendAppGossip(ctx context.Context, appGossipBytes []byte) e
 	return errSendAppGossip
 }
 
-func (s *SenderTest) SendAppGossipFrenzy(ctx, appGossipBytes []byte) error {
+func (s *SenderTest) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte) error {
 	switch {
 	case s.SendAppGossipF != nil:
 		return s.SendAppGossipF(appGossipBytes)
