@@ -350,7 +350,7 @@ func (s *SenderTest) SendAppGossip(ctx context.Context, appGossipBytes []byte) e
 func (s *SenderTest) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte) error {
 	switch {
 	case s.SendAppGossipF != nil:
-		return s.SendAppGossipF(appGossipBytes)
+		return s.SendAppGossipF(ctx, appGossipBytes)
 	case s.CantSendAppGossip && s.T != nil:
 		s.T.Fatal(errSendAppGossip)
 	}
