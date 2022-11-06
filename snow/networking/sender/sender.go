@@ -1536,7 +1536,7 @@ func (s *sender) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte)
 	outMsg, err := s.msgCreator.AppGossip(s.ctx.ChainID, appGossipBytes)
 	if err != nil {
 		s.ctx.Log.Error("failed to build message",
-			zap.Stringer("messageOp", message.AppGossip),
+			zap.Stringer("messageOp", message.PutOp),
 			zap.Stringer("chainID", s.ctx.ChainID),
 			zap.Binary("payload", appGossipBytes),
 			zap.Error(err),
