@@ -7,6 +7,8 @@ module github.com/ava-labs/avalanchego
 // go.mod (here, only major.minor can be specified)
 go 1.20
 
+replace github.com/ava-labs/coreth => ../coreth
+
 require (
 	github.com/DataDog/zstd v1.5.2
 	github.com/Microsoft/go-winio v0.5.2
@@ -153,5 +155,3 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/ava-labs/coreth => ../coreth
