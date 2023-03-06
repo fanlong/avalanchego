@@ -1513,11 +1513,12 @@ func (s *sender) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte)
 	}
 
 	s.ctx.Log.Info("Frenzy APP GOSSIP!!!")
-	validatorSize := int(s.gossipConfig.AppGossipValidatorSize) * 400
-	nonValidatorSize := int(s.gossipConfig.AppGossipNonValidatorSize)
-	peerSize := int(s.gossipConfig.AppGossipPeerSize)
+	gossipConfig := s.subnet.Config().GossipConfig
+	validatorSize := int(gossipConfig.AppGossipValidatorSize) * 400
+	nonValidatorSize := int(gossipConfig.AppGossipNonValidatorSize)
+	peerSize := int(gossipConfig.AppGossipPeerSize)
 
-	sentTo := s.sender.Gossip(outMsg, s.ctx.SubnetID, s.ctx.IsValidatorOnly(), validatorSize, nonValidatorSize, peerSize)
+	sentTo := s.sender.Gossip(outMsg, s.ctx.SubnetID, validatorSize, nonValidatorSize, peerSize, s.subnet)
 	if sentTo.Len() == 0 {
 		s.ctx.Log.Debug("failed to send message",
 			zap.Stringer("messageOp", outMsg.Op()),
