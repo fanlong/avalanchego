@@ -595,16 +595,6 @@ func (p *peer) writeMessage(writer io.Writer, msg message.OutboundMessage) {
 		return
 	}
 
-	// Make sure the peer was fully sent all prior messages before
-	// blocking.
-	if err := writer.Flush(); err != nil {
-		p.Log.Verbo("failed to flush writer",
-			zap.Stringer("nodeID", p.id),
-			zap.Error(err),
-		)
-		return
-	}
-
 	now := p.Clock.Time()
 	p.storeLastSent(now)
 	p.Metrics.Sent(msg)
