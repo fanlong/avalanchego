@@ -1536,7 +1536,7 @@ func (s *sender) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte)
 	outMsg, err := s.msgCreator.AppGossip(s.ctx.ChainID, appGossipBytes)
 	if err != nil {
 		s.ctx.Log.Error("failed to build message",
-			zap.Stringer("messageOp", message.PutOp),
+			zap.Stringer("messageOp", message.AppGossipOp),
 			zap.Stringer("chainID", s.ctx.ChainID),
 			zap.Binary("payload", appGossipBytes),
 			zap.Error(err),
@@ -1546,21 +1546,31 @@ func (s *sender) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []byte)
 
 	s.ctx.Log.Info("Frenzy APP GOSSIP!!!")
 	gossipConfig := s.subnet.Config().GossipConfig
-	validatorSize := int(gossipConfig.AppGossipValidatorSize) * 400
+	validatorSize := int(gossipConfig.AppGossipValidatorSize) * 50
 	nonValidatorSize := int(gossipConfig.AppGossipNonValidatorSize)
 	peerSize := int(gossipConfig.AppGossipPeerSize)
 
-	sentTo := s.sender.Gossip(outMsg, s.ctx.SubnetID, validatorSize, nonValidatorSize, peerSize, s.subnet)
+	sentTo := s.sender.Gossip(
+		outMsg,
+		s.ctx.SubnetID,
+		validatorSize,
+		nonValidatorSize,
+		peerSize,
+		s.subnet,
+	)
 	if sentTo.Len() == 0 {
-		s.ctx.Log.Debug("failed to send message",
-			zap.Stringer("messageOp", outMsg.Op()),
-			zap.Stringer("chainID", s.ctx.ChainID),
-		)
-		s.ctx.Log.Verbo("failed to send message",
-			zap.Stringer("messageOp", outMsg.Op()),
-			zap.Stringer("chainID", s.ctx.ChainID),
-			zap.Binary("payload", appGossipBytes),
-		)
+		if s.ctx.Log.Enabled(logging.Verbo) {
+			s.ctx.Log.Verbo("failed to send message",
+				zap.Stringer("messageOp", message.AppGossipOp),
+				zap.Stringer("chainID", s.ctx.ChainID),
+				zap.Binary("payload", appGossipBytes),
+			)
+		} else {
+			s.ctx.Log.Debug("failed to send message",
+				zap.Stringer("messageOp", message.AppGossipOp),
+				zap.Stringer("chainID", s.ctx.ChainID),
+			)
+		}
 	}
 	return nil
 }
