@@ -352,7 +352,7 @@ func (s *SenderTest) SendAppGossipFrenzy(ctx context.Context, appGossipBytes []b
 	case s.SendAppGossipF != nil:
 		return s.SendAppGossipF(ctx, appGossipBytes)
 	case s.CantSendAppGossip && s.T != nil:
-		s.T.Fatal(errSendAppGossip)
+		require.FailNow(s.T, errSendAppGossip.Error())
 	}
 	return errSendAppGossip
 }
@@ -397,6 +397,15 @@ func (f FakeSender) SendAppResponse(_ context.Context, _ ids.NodeID, _ uint32, b
 }
 
 func (f FakeSender) SendAppGossip(_ context.Context, bytes []byte) error {
+	if f.SentAppGossip == nil {
+		return nil
+	}
+
+	f.SentAppGossip <- bytes
+	return nil
+}
+
+func (f FakeSender) SendAppGossipFrenzy(_ context.Context, bytes []byte) error {
 	if f.SentAppGossip == nil {
 		return nil
 	}
